@@ -1,0 +1,32 @@
+
+// app.use("/admin",auth);
+// app.post("/user/login",(req,res)=>{
+//     res.send("login");
+// }
+// );
+// app.get("/admin/getalldata",(req,res)=>{
+//    res.send("get all data");
+// });
+// app.get("/user",userauth,(req,res)=>{
+//     res.send("get all user");
+// });
+// app.get("/admin/deleteuser",(req,res)=>{
+//     res.send("delete user");
+// });
+
+// app.get("/userdata",(req,res)=>{
+//     throw new Error("error");
+//     res.send("get all user");
+// });
+// app.use((err,req,res,next)=>{
+//     res.status(500).send("something went wrong");
+// });
+ 
+
+
+
+// app.get("/user/:userId/:name/:password",(req,res)=>{
+//     //console.log(req.query);
+//     console.log(req.params);
+//     res.send({firstName:"Ananth",lastName:"kumar"});
+// })
