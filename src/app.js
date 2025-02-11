@@ -16,7 +16,8 @@ const User=require('./models/user');
    }
  });
 
-app.get("/user",async (req,res)=>{
+app.get("/user/",async (req,res)=>{
+    c
     const firstName=req.body.firstName;
     try
     {
@@ -39,7 +40,7 @@ app.get("/feed",async(req,res)=>{
     try{
         const users=await User.find({});
         res.send(users);
-    }
+       }
     catch(err){
         res.status(400).send("something went wrong");
     }
@@ -59,11 +60,25 @@ app.delete("/deleteuser",async(req,res)=>{
 
 
 
-app.patch("/update",async(req,res)=>{
-    const id=req.body.id;
-    const data=req.body;
+app.patch("/update/:userId",async(req,res)=>{
+    const id=req.params.userId;
+     //const id=req.body.id;
+     const data=req.body;
     try{
-        const user=await User.findByIdAndUpdate(id,data);
+        const allowedUpdates=["id","firstName","lastName","phone","gender","password"];
+        const isUpdated=Object.keys(data).every((k)=>{
+            return allowedUpdates.includes(k);
+        });
+        if(!isUpdated)
+        {
+            throw new Error("invalid updates");
+        }
+
+        
+        const user=await User.findByIdAndUpdate(id,data,{
+            returnDocument:true,
+            runValidators:true
+        });
         res.send("user updated");
     }
     catch(err){
