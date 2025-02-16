@@ -1,11 +1,6 @@
 const express = require('express');
 const connectDB = require('./config/database');
-const { validateSignUpData } = require('./utils/validation');
-const User = require('./models/user');
-const bcrypt=require('bcrypt');
 const cookieParser=require("cookie-parser");
-const jwt=require("jsonwebtoken");
-const {auth}=require("./middlewares/auth");
 const app = express();
 app.use(express.json());
 app.use(cookieParser())
@@ -17,7 +12,7 @@ app.use("/",require("./routes/request"));
 
 app.use("/",require("./routes/auth"));
 
-
+app.use("/",require("./routes/user"));
 
 
 
