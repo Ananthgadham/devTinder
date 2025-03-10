@@ -20,8 +20,8 @@ const validateSignUpData = (data) => {
 
 
 const validateProfileUpdate = (req) => {
-    const { lastName, phone, gender } = req.body; // ✅ Correct way to extract data
-    const allowedUpdates = ["lastName", "phone", "gender"]; // ✅ Define allowed fields
+    const { firstName,lastName, phone, gender } = req.body; // ✅ Correct way to extract data
+    const allowedUpdates = ["firstName","lastName", "phone", "gender"]; // ✅ Define allowed fields
     const isUpdateAllowed = Object.keys(req.body).every((key) => allowedUpdates.includes(key));
     return isUpdateAllowed;
 };

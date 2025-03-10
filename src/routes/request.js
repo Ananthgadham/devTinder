@@ -51,6 +51,7 @@ requestRouter.post("/request/review/:status/:requestId",auth,async(req,res)=>{
     try
     {
       const {status,requestId}=req.params;
+      console.log(status);
       const loggedInUser=req.user;
       const allowedStatus=["accepted","rejected"];
       if(!allowedStatus.includes(status))
@@ -68,11 +69,9 @@ requestRouter.post("/request/review/:status/:requestId",auth,async(req,res)=>{
      {
       return res.status(404).json({error:"Request Not Found"});
      }
-
      connectionRequest.status=status;
      const data=await connectionRequest.save();
      res.json({message:req.user.firstName+" "+status+" request",data});
-
     }
     catch(err)
     {

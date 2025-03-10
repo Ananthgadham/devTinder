@@ -1,10 +1,16 @@
 const express = require('express');
 const connectDB = require('./config/database');
+const cors=require("cors");
+const User=require("./models/user");
 const cookieParser=require("cookie-parser");
 const app = express();
 app.use(express.json());
 app.use(cookieParser())
 
+app.use(cors({
+    origin:"http://localhost:5173",
+    credentials:true,
+}));
 
 app.use("/",require("./routes/profile"));
 
@@ -13,7 +19,6 @@ app.use("/",require("./routes/request"));
 app.use("/",require("./routes/auth"));
 
 app.use("/",require("./routes/user"));
-
 
 
 
@@ -37,33 +42,8 @@ app.use("/",require("./routes/user"));
 //     }
 // });
 
-// // 🔹 UPDATE USER (Fixed `PATCH`)
-// app.patch("/update/:userId", async (req, res) => {
-//     const id = req.params.userId;
-//     const data = req.body;
+// 🔹 UPDATE USER (Fixed `PATCH`)
 
-//     try {
-//         const allowedUpdates = ["firstName", "lastName", "phone", "gender", "password"]; // ✅ Removed `"id"`
-//         const isValidUpdate = Object.keys(data).every((key) => allowedUpdates.includes(key));
-
-//         if (!isValidUpdate) {
-//             return res.status(400).json({ error: "Invalid update fields" });
-//         }
-
-//         const user = await User.findByIdAndUpdate(id, data, {
-//             new: true, // ✅ Fix: Use `new: true`
-//             runValidators: true
-//         });
-
-//         if (!user) {
-//             return res.status(404).json({ error: "User not found" });
-//         }
-
-//         res.json({ message: "User updated successfully", user });
-//     } catch (err) {
-//         res.status(400).json({ error: err.message });
-//     }
-// });
 
 // 🔹 CONNECT TO DATABASE & START SERVER
     connectDB().then(() => {

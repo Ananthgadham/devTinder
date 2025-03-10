@@ -35,7 +35,7 @@ userRouter.get("/user/connections",auth,async(req,res)=>{
                 status:"accepted"
             }
            ],
-        }).populate("fromUserId","firstName lastName").populate("toUserId","firstName lastName");
+        }).populate("fromUserId","firstName lastName profilePic").populate("toUserId","firstName lastName profilePic");
         const data=connections.map((row)=>{
             if(row.fromUserId._id.equals(loggedInUser._id))
             {
@@ -52,6 +52,58 @@ userRouter.get("/user/connections",auth,async(req,res)=>{
              res.status(400).json({error:err.message});
           }
 });
+
+
+
+userRouter.get("/user/feed",auth,async(req,res)=>{
+    try {  
+              const loggedInUser=req.user;
+              const page=parseInt(req.query.page);
+              let limit=parseInt(req.query.limit);
+              limit=limit>50?50:limit;
+              const skip=(page-1)*limit;
+              const connectionRequests=await ConnectionRequest.find({
+                $or:[
+                    {
+                        fromUserId:loggedInUser._id
+                    },
+                    {
+                        toUserId:loggedInUser._id
+                    }
+                    ]
+              }).select("fromUserId toUserId");
+
+
+
+          const hideUsersFromFeed=new Set();
+          connectionRequests.forEach((req)=>
+          {
+           hideUsersFromFeed.add(req.fromUserId.toString());
+           hideUsersFromFeed.add(req.toUserId.toString());
+          }
+        );
+        console.log(hideUsersFromFeed);
+
+
+
+        const users=await User.find({
+            $and:[
+            {_id:{$nin:Array.from(hideUsersFromFeed)}},
+            {_id:{$ne:loggedInUser._id}},
+            ],
+        }).
+        select("firstName lastName profilePic").skip(skip).limit(limit);
+
+
+
+
+        res.send(users);
+       }  
+    catch(err){
+        res.status(400).json({error:err.message});
+    }
+})
+
 
 
 module.exports = userRouter;

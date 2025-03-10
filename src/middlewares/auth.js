@@ -30,7 +30,7 @@
         const {token}=req.cookies;
         if(!token)
             {
-                throw new Error("Invalid token");
+                return res.status(401).send("please login");
             }
         const decodedmessage=await jwt.verify(token,"DEV@TINDER");
         const {_id}=decodedmessage;

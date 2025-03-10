@@ -14,7 +14,7 @@ requestRouter.get("/profile/view",auth,async (req,res)=>{
     }
 });
 
-requestRouter.patch("/profile/update", auth, async (req, res) => {
+requestRouter.post("/profile/update", auth, async (req, res) => {
     try {
         if (!validateProfileUpdate(req)) {
             return res.status(400).send({ error: "Invalid update request" });

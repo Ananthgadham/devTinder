@@ -13,7 +13,7 @@ const mongoose=require('mongoose');
        },
        status:{
          type:String,
-          enum:["ignore","intrest","accepted","rejected"],
+          enum:["ignore","intrest","accepted"],
           message:'{VALUE} is not supported'
        }
  },{timestamps:true});
